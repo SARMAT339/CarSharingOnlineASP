@@ -14,7 +14,7 @@ namespace CarSharingOnlineASP.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(Guid id)
+        public IActionResult Cars(Guid id)
         {
             return View(carsJSRepository.GetAll());
         }

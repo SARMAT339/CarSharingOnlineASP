@@ -1,14 +1,23 @@
+using CarSharing.DB;
+using CarSharing.DB.Models;
 using CarSharingOnlineASP.Data;
+using CarSharingOnlineASP.Models;
 using CarSharingOnlineASP.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ICarsJSRepository, CarsJSRepository>();
-builder.Services.AddSingleton<IUsersJSRepository, UsersJSRepository>();
-builder.Services.AddSingleton<IRentsJSRepository, RentsJSRepository>();
-builder.Services.AddSingleton<IRentService, RentService>();
+//builder.Services.AddSingleton<ICarsJSRepository, CarsJSRepository>();
+//builder.Services.AddSingleton<IUsersJSRepository, UsersJSRepository>();
+//builder.Services.AddSingleton<IRentsJSRepository, RentsJSRepository>();
+//builder.Services.AddSingleton<IRentService, RentService>();
+string connection = builder.Configuration.GetConnectionString("DBCarSharing");
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+builder.Services.AddIdentity<UserDB, IdentityRole>().AddEntityFrameworkStores<DatabaseContext>();
 
 builder.Services.AddSession(options =>
 {
