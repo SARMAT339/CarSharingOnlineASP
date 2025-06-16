@@ -1,0 +1,11 @@
+﻿@model List<Car>
+
+<h2>Каталог</h2>
+
+@foreach (var car in Model)
+{
+    <h4> @car.Name</h4>
+    <h4> @car.Description</h4>
+    <h4> @car.CostMinute</h4>
+    <h4> @car.Name</h4>
+}

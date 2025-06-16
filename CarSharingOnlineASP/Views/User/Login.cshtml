@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Вход";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Login">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label for="email" class="control-label">Email</label>
+        <input name="email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="control-label">Пароль</label>
+        <input name="password" type="password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Войти" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Register">Регистрация</a> |
+    <a asp-action="Index">Назад к списку</a>
+</div>

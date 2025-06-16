@@ -1,0 +1,39 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Список пользователей";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Email</th>
+            <th>Возраст</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Age)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Подробности</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Register" class="btn btn-primary">Зарегистрироваться</a>
+    <a asp-action="Login" class="btn btn-secondary">Войти</a>
+</div>

@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "Hyundai Solaris",
+    "Description": "Клас комфорт. Коробка автомат",
+    "CostMinute": 12,
+    "Image": "Data/Images/HyundaiSolaris.jpg"
+  },
+  {
+    "Name": "Mercedes GLC 250",
+    "Description": "Класс люкс. Коробка автомат",
+    "CostMinute": 20,
+    "Image": "Data/Images/MercedesGLC250.jpg"
+  }
+]

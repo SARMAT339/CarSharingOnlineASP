@@ -1,0 +1,22 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Домашняя страница";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать, @Model.FirstName!</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Ваш профиль</h5>
+            <p class="card-text">
+                <strong>Имя:</strong> @Model.FirstName @Model.LastName<br>
+                <strong>Email:</strong> @Model.Email<br>
+                <strong>Возраст:</strong> @Model.Age
+            </p>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактировать профиль</a>
+            <a asp-action="Logout" class="btn btn-danger">Выйти</a>
+        </div>
+    </div>
+</div>

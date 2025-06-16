@@ -1,0 +1,25 @@
+﻿@model Car
+
+<div class="text-left">
+    <h1>Информация о продукте</h1>
+</div>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src=@Model.Image class="card-img" alt="...">
+
+            <div class="card-body">
+                <h4>@Model.Name</h4>
+                <p class="card-text">@Model.Description</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a type="button" class="btn btn-sm btn-outline-secondary">Смотреть</a>
+                        <a type="button" class="btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="EditCar" asp-route-id="@Model.Id">Редактировать</a>
+                    </div>
+                    <small class="text-muted">@Model.CostMinute p/мин</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿[
+  {
+    "Id": "8080bd71-f1a0-4e52-8bee-f2537f980548",
+    "FirstName": "Sarmat",
+    "LastName": "Bdaitsiev",
+    "Age": 20,
+    "Email": "bdaitsievsarmat@gmail.com",
+    "Password": "SAILOS33933",
+    "RightsNumber": 123456,
+    "IsAdmin": true,
+    "IsBlocked": false
+  },
+  {
+    "Id": "ba1a4342-fe83-44d9-a112-df66b5772f19",
+    "FirstName": "Fedya",
+    "LastName": "Ivanov",
+    "Age": 30,
+    "Email": "bdaitsievsarmat@gmail.com",
+    "Password": "SAILOS33933",
+    "RightsNumber": 222346,
+    "IsAdmin": false,
+    "IsBlocked": false
+  },
+  {
+    "Id": "901608e0-0466-46b4-857f-16b895dbf829",
+    "FirstName": "Lex",
+    "LastName": "Versas",
+    "Age": 24,
+    "Email": "lexversas@gmail.com",
+    "Password": "SAILOS33933",
+    "RightsNumber": 428469,
+    "IsAdmin": false,
+    "IsBlocked": false
+  },
+  {
+    "Id": "3bc830f3-3a7b-4696-a6a7-7136c077fc0a",
+    "FirstName": "BD",
+    "LastName": "Sarmat",
+    "Age": 20,
+    "Email": "waaaaaw@gmail.com",
+    "Password": "Aa123456",
+    "RightsNumber": 0,
+    "IsAdmin": false,
+    "IsBlocked": false
+  }
+]
