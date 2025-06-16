@@ -1,0 +1,44 @@
+﻿[
+  {
+    "Id": "d8ec41d7-6a7d-4d8e-bf6f-08a0155e0436",
+    "UserID": "3bc830f3-3a7b-4696-a6a7-7136c077fc0a",
+    "CarId": "b8dd1277-51f0-48ee-aaa3-7ff3b99eabfc",
+    "Car": {
+      "Id": "b8dd1277-51f0-48ee-aaa3-7ff3b99eabfc",
+      "Name": "Mercedes GLC 250",
+      "Description": "Класс люкс. Коробка автомат",
+      "CostMinute": 20,
+      "Latitude": 0,
+      "Longitude": 0,
+      "IsAvailable": true,
+      "Image": "Data/Images/MercedesGLC250.jpg"
+    },
+    "StartTime": "2025-06-16T20:02:17.1181061+03:00",
+    "EndTime": "2025-06-16T20:02:52.0219026+03:00",
+    "TotalCost": 11.634598833333340,
+    "Status": 1,
+    "StartLocation": "ул. Стрельцово дом 5",
+    "EndLocation": "ул. Ватутина 40"
+  },
+  {
+    "Id": "b080fff7-b4d5-4e41-bf69-cd3bfea43404",
+    "UserID": "3bc830f3-3a7b-4696-a6a7-7136c077fc0a",
+    "CarId": "b8dd1277-51f0-48ee-aaa3-7ff3b99eabfc",
+    "Car": {
+      "Id": "b8dd1277-51f0-48ee-aaa3-7ff3b99eabfc",
+      "Name": "Mercedes GLC 250",
+      "Description": "Класс люкс. Коробка автомат",
+      "CostMinute": 20,
+      "Latitude": 0,
+      "Longitude": 0,
+      "IsAvailable": true,
+      "Image": "Data/Images/MercedesGLC250.jpg"
+    },
+    "StartTime": "2025-06-16T20:03:17.2958428+03:00",
+    "EndTime": "2025-06-16T20:07:22.6150656+03:00",
+    "TotalCost": 81.77307426666660,
+    "Status": 1,
+    "StartLocation": "ул. Стрельцово дом 5",
+    "EndLocation": "ул. Ватутина 40"
+  }
+]

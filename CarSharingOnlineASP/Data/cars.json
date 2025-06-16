@@ -1,14 +1,22 @@
-[
+﻿[
   {
+    "Id": "ccbe935b-1f5e-42bc-9c4a-0c8ed58bf1e6",
     "Name": "Hyundai Solaris",
     "Description": "Клас комфорт. Коробка автомат",
     "CostMinute": 12,
+    "Latitude": 0,
+    "Longitude": 0,
+    "IsAvailable": true,
     "Image": "Data/Images/HyundaiSolaris.jpg"
   },
   {
+    "Id": "b8dd1277-51f0-48ee-aaa3-7ff3b99eabfc",
     "Name": "Mercedes GLC 250",
     "Description": "Класс люкс. Коробка автомат",
     "CostMinute": 20,
+    "Latitude": 0,
+    "Longitude": 0,
+    "IsAvailable": true,
     "Image": "Data/Images/MercedesGLC250.jpg"
   }
 ]

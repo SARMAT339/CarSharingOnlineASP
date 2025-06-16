@@ -29,6 +29,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Catalog">Каталог</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="RentMvc" asp-action="Index">Аренда</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Админ</a>
                         </li>
                         @{
@@ -37,6 +40,9 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="User" asp-action="Home">Главная</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="RentMvc" asp-action="MyRents">Мои аренды</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="User" asp-action="Logout">Выйти</a>

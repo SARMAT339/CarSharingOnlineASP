@@ -1,74 +1,173 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CarSharingOnlineASP.Models;
+using CarSharingOnlineASP.Data;
 
 namespace CarSharingOnlineASP.Services
 {
     public class RentService : IRentService
     {
-        private readonly List<Rent> _rents = new List<Rent>();
-        private readonly List<Car> _cars;
-        private readonly List<User> _users;
-        private readonly List<Card> _cards;
+        private readonly IRentsJSRepository _rentsRepository;
+        private readonly ICarsJSRepository _carsRepository;
+        private readonly IUsersJSRepository _usersRepository;
 
-        public RentService(List<Car> cars, List<User> users, List<Card> cards)
+        public RentService(
+            IRentsJSRepository rentsRepository,
+            ICarsJSRepository carsRepository,
+            IUsersJSRepository usersRepository)
         {
-            _cars = cars;
-            _users = users;
-            _cards = cards;
+            _rentsRepository = rentsRepository;
+            _carsRepository = carsRepository;
+            _usersRepository = usersRepository;
         }
 
-        public Rent StartRent(Guid userId, Guid carId, DateTime startTime)
+        public Rent StartRent(Guid userId, Guid carId, DateTime startTime, string startLocation)
         {
-            var user = _users.FirstOrDefault(u => u.Id == userId);
+            var user = _usersRepository.TryGetById(userId);
             if (user == null || user.IsBlocked)
-                throw new Exception("User not found or blocked");
+                throw new Exception("Пользователь не найден или заблокирован");
 
-            var car = _cars.FirstOrDefault(c => c.Id == carId);
+            var car = _carsRepository.TryGetById(carId);
             if (car == null)
-                throw new Exception("Car not found");
+                throw new Exception("Автомобиль не найден");
 
-            var userCard = _cards.FirstOrDefault(c => c.UserId == userId);
-            if (userCard == null)
-                throw new Exception("User has no payment card");
+            if (!car.IsAvailable)
+                throw new Exception("Автомобиль недоступен для аренды");
+
+            var activeRent = _rentsRepository.GetByUserId(userId)
+                .FirstOrDefault(r => r.Status == RentStatus.Active);
+            if (activeRent != null)
+                throw new Exception("У вас уже есть активная аренда");
 
             var rent = new Rent
             {
                 UserID = userId,
-                car = car,
+                CarId = carId,
+                Car = car,
                 StartTime = startTime,
                 EndTime = DateTime.MinValue,
-                TotalCost = 0
+                TotalCost = 0,
+                Status = RentStatus.Active,
+                StartLocation = startLocation
             };
 
-            _rents.Add(rent);
+            car.IsAvailable = false;
+            _carsRepository.Updata(new CarEdit
+            {
+                Id = car.Id,
+                Name = car.Name,
+                Description = car.Description,
+                CostMinute = car.CostMinute,
+                Image = car.Image
+            });
+            _rentsRepository.Add(rent);
             return rent;
         }
 
-        public Rent EndRent(Guid rentId, DateTime endTime)
+        public Rent EndRent(Guid rentId, DateTime endTime, string endLocation)
         {
-            var rent = _rents.FirstOrDefault(r => r.UserID == rentId);
+            var rent = _rentsRepository.TryGetById(rentId);
             if (rent == null)
-                throw new Exception("Rent not found");
+                throw new Exception("Аренда не найдена");
+
+            if (rent.Status != RentStatus.Active)
+                throw new Exception("Аренда не активна");
 
             if (endTime < rent.StartTime)
-                throw new Exception("Invalid end time");
+                throw new Exception("Некорректное время завершения");
 
             rent.EndTime = endTime;
-            var duration = (decimal)(endTime - rent.StartTime).TotalMinutes;
-            rent.TotalCost = duration * rent.car.CostMinute;
+            rent.EndLocation = endLocation;
+            rent.Status = RentStatus.Completed;
+            rent.TotalCost = CalculateRentCost(rentId);
 
+            var car = _carsRepository.TryGetById(rent.CarId);
+            if (car != null)
+            {
+                car.IsAvailable = true;
+                _carsRepository.Updata(new CarEdit
+                {
+                    Id = car.Id,
+                    Name = car.Name,
+                    Description = car.Description,
+                    CostMinute = car.CostMinute,
+                    Image = car.Image
+                });
+            }
+
+            _rentsRepository.Update(rent);
             return rent;
         }
 
         public Rent GetRent(Guid rentId)
         {
-            return _rents.FirstOrDefault(r => r.UserID == rentId) ??
-                   throw new Exception("Rent not found");
+            return _rentsRepository.TryGetById(rentId) ??
+                   throw new Exception("Аренда не найдена");
         }
 
         public List<Rent> GetUserRents(Guid userId)
         {
-            return _rents.Where(r => r.UserID == userId).ToList();
+            return _rentsRepository.GetByUserId(userId);
+        }
+
+        public List<Rent> GetActiveRents()
+        {
+            return _rentsRepository.GetAll()
+                .Where(r => r.Status == RentStatus.Active)
+                .ToList();
+        }
+
+        public Rent CancelRent(Guid rentId)
+        {
+            var rent = _rentsRepository.TryGetById(rentId);
+            if (rent == null)
+                throw new Exception("Аренда не найдена");
+
+            if (rent.Status != RentStatus.Active)
+                throw new Exception("Аренда не активна");
+
+            rent.Status = RentStatus.Cancelled;
+            rent.EndTime = DateTime.Now;
+            rent.TotalCost = CalculateRentCost(rentId);
+
+            var car = _carsRepository.TryGetById(rent.CarId);
+            if (car != null)
+            {
+                car.IsAvailable = true;
+                _carsRepository.Updata(new CarEdit
+                {
+                    Id = car.Id,
+                    Name = car.Name,
+                    Description = car.Description,
+                    CostMinute = car.CostMinute,
+                    Image = car.Image
+                });
+            }
+
+            _rentsRepository.Update(rent);
+            return rent;
+        }
+
+        public decimal CalculateRentCost(Guid rentId)
+        {
+            var rent = _rentsRepository.TryGetById(rentId);
+            if (rent == null)
+                throw new Exception("Аренда не найдена");
+
+            var duration = (decimal)(rent.EndTime - rent.StartTime).TotalMinutes;
+            return duration * rent.Car.CostMinute;
+        }
+
+        public bool IsCarAvailable(Guid carId)
+        {
+            var car = _carsRepository.TryGetById(carId);
+            return car != null && car.IsAvailable;
+        }
+
+        public List<Car> GetAvailableCars()
+        {
+            return _carsRepository.GetAll()
+                .Where(c => c.IsAvailable)
+                .ToList();
         }
     }
 

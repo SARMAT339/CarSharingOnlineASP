@@ -1,0 +1,112 @@
+@model IEnumerable<CarSharingOnlineASP.Models.Rent>
+
+@{
+    ViewData["Title"] = "Мои аренды";
+}
+
+<div class="container mt-4">
+    <h2>Мои аренды</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            У вас пока нет аренд. <a asp-action="Index" class="alert-link">Посмотреть доступные автомобили</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var rent in Model)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        @if (!string.IsNullOrEmpty(rent.Car.Image))
+                        {
+                            <img src="@rent.Car.Image" class="card-img-top" alt="@rent.Car.Name">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@rent.Car.Name</h5>
+                            <div class="card-text">
+                                <p>
+                                    <strong>Статус:</strong>
+                                    @switch (rent.Status)
+                                    {
+                                        case RentStatus.Active:
+                                            <span class="badge bg-success">Активна</span>
+                                            break;
+                                        case RentStatus.Completed:
+                                            <span class="badge bg-primary">Завершена</span>
+                                            break;
+                                        case RentStatus.Cancelled:
+                                            <span class="badge bg-danger">Отменена</span>
+                                            break;
+                                    }
+                                </p>
+                                <p><strong>Начало аренды:</strong> @rent.StartTime.ToString("g")</p>
+                                <p><strong>Место начала:</strong> @rent.StartLocation</p>
+                                
+                                @if (rent.Status == RentStatus.Active)
+                                {
+                                    <form asp-action="EndRent" method="post" class="mt-3">
+                                        <input type="hidden" name="rentId" value="@rent.Id" />
+                                        <div class="form-group mb-3">
+                                            <label for="endLocation" class="form-label">Место завершения</label>
+                                            <input type="text" class="form-control" id="endLocation" name="endLocation" required>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-success">Завершить аренду</button>
+                                            <button type="button" class="btn btn-danger" onclick="cancelRent('@rent.Id')">Отменить аренду</button>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <p><strong>Время завершения:</strong> @rent.EndTime.ToString("g")</p>
+                                    <p><strong>Место завершения:</strong> @rent.EndLocation</p>
+                                    <p><strong>Итоговая стоимость:</strong> @rent.TotalCost.ToString("F2") ₽</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function cancelRent(rentId) {
+            if (confirm('Вы уверены, что хотите отменить эту аренду?')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '@Url.Action("CancelRent")';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'rentId';
+                input.value = rentId;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+} 

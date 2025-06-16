@@ -15,7 +15,7 @@ namespace CarSharingOnlineASP.Controllers
         }
 
         [HttpPost("start")]
-        public IActionResult StartRent([FromBody] StartRentRequest request)
+        /*public IActionResult StartRent([FromBody] StartRentRequest request)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace CarSharingOnlineASP.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
 
         [HttpGet("{rentId}")]
         public IActionResult GetRent(Guid rentId)

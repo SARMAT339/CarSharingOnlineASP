@@ -8,5 +8,6 @@ namespace CarSharingOnlineASP.Data
         List<Car> GetAll();
         Car TryGetById(Guid id);
         void Updata(CarEdit car);
+        void Save();
     }
 }

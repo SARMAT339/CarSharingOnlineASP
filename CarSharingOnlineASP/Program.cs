@@ -1,4 +1,5 @@
 using CarSharingOnlineASP.Data;
+using CarSharingOnlineASP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ICarsJSRepository, CarsJSRepository>();
 builder.Services.AddSingleton<IUsersJSRepository, UsersJSRepository>();
+builder.Services.AddSingleton<IRentsJSRepository, RentsJSRepository>();
+builder.Services.AddSingleton<IRentService, RentService>();
 
 builder.Services.AddSession(options =>
 {

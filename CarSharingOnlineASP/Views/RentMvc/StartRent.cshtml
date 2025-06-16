@@ -1,0 +1,62 @@
+@model CarSharingOnlineASP.Models.Car
+
+@{
+    ViewData["Title"] = "Начать аренду";
+}
+
+<div class="container mt-4">
+    <h2>Начать аренду</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="@Model.Image" class="card-img-top" alt="@Model.Name">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Name</h5>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text">
+                        <strong>Стоимость в минуту:</strong> @Model.CostMinute.ToString("F2") ₽
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Информация об аренде</h5>
+                    <form asp-action="StartRent" method="post">
+                        <input type="hidden" name="carId" value="@Model.Id" />
+                        <div class="form-group mb-3">
+                            <label for="startLocation" class="form-label">Место начала аренды</label>
+                            <input type="text" class="form-control" id="startLocation" name="startLocation" required
+                                   placeholder="Введите адрес или координаты">
+                        </div>
+                        <div class="alert alert-info">
+                            <p><strong>Важно:</strong></p>
+                            <ul class="mb-0">
+                                <li>Аренда начнется сразу после подтверждения</li>
+                                <li>Стоимость рассчитывается по минутам</li>
+                                <li>Вы можете завершить аренду в любой момент</li>
+                            </ul>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Подтвердить аренду</button>
+                            <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

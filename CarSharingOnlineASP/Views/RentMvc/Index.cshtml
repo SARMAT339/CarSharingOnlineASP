@@ -1,0 +1,30 @@
+@model IEnumerable<CarSharingOnlineASP.Models.Car>
+
+@{
+    ViewData["Title"] = "Available Cars";
+}
+
+<div class="container mt-4">
+    <h2>Available Cars</h2>
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if (!string.IsNullOrEmpty(car.Image))
+                    {
+                        <img src="@car.Image" class="card-img-top" alt="@car.Name">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Name</h5>
+                        <p class="card-text">@car.Description</p>
+                        <p class="card-text">
+                            <strong>Cost per minute:</strong> $@car.CostMinute.ToString("F2")
+                        </p>
+                        <a asp-action="StartRent" asp-route-carId="@car.Id" class="btn btn-primary">Rent Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 
