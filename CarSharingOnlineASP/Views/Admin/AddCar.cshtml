@@ -9,17 +9,17 @@
         <form method="post">
             <div asp-validation-summary="All"></div>
             <div class="mb-3">
-                <label class="form-label">Название продукта</label>
+                <label class="form-label">Название автомобиля</label>
                 <input type="text" class="form-control" name="Name" asp-for="Name">
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
             <div class="mb-3">
-                <label class="form-label">Описание продукта</label>
+                <label class="form-label">Описание автомобиля</label>
                 <input type="text" class="form-control" name="Description" asp-for="Description">
                 <span class="text-danger" asp-validation-for="Description"></span>
             </div>
             <div class="mb-3">
-                <label class="form-label">Цена</label>
+                <label class="form-label">Цена руб/мин</label>
                 <input type="number" class="form-control" name="CostMinute">
             </div>
             <div class="mb-3">

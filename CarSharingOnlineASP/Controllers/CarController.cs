@@ -2,28 +2,32 @@
 using System;
 using CarSharingOnlineASP.Data;
 using CarSharingOnlineASP.Models;
+using CarSharing.DB.Models;
+using CarSharing.DB;
+using CarSharingOnlineASP.Helper;
 
 namespace CarSharingOnlineASP.Controllers
 {
     public class CarController : Controller
     {
-        readonly ICarsJSRepository carsJSRepository;
+        //readonly ICarsJSRepository carsJSRepository;
+        readonly ICarsDBRepository carsDBRepository;
 
-        public CarController(ICarsJSRepository carsJSRepository)
+        public CarController(ICarsDBRepository carsDBRepository)
         {
-            this.carsJSRepository = carsJSRepository;
+            this.carsDBRepository = carsDBRepository;
         }
 
         public IActionResult Index(Guid id)
         {
-            Car car = carsJSRepository.TryGetById(id);
-            return View(car);
+            CarDB car = carsDBRepository.TryGetById(id);
+            return View(Mapping.ToCar(car));
         }
 
         public IActionResult Catalog(Guid id) 
         { 
-            List<Car> cars = carsJSRepository.GetAll();
-            return View(cars);
+            List<CarDB> cars = carsDBRepository.GetAll();
+            return View(Mapping.ToCarList(cars));
         }
 
         /*public IActionResult Index()

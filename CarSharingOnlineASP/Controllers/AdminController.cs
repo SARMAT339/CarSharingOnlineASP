@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CarSharingOnlineASP.Data;
 using CarSharingOnlineASP.Models;
+using CarSharing.DB;
+using CarSharing.DB.Models;
+using CarSharingOnlineASP.Helper;
 
 namespace CarSharingOnlineASP.Controllers
 {
     public class AdminController : Controller
     {
-        readonly  ICarsJSRepository carsJSRepository;
+        //readonly  ICarsJSRepository carsJSRepository;
+        readonly ICarsDBRepository carsDBRepository;
 
-        public AdminController(ICarsJSRepository carsJSRepository)
+        public AdminController(ICarsDBRepository carsDBRepository)
         {
-            this.carsJSRepository = carsJSRepository;
+            this.carsDBRepository = carsDBRepository;
         }
 
         [HttpGet]
         public IActionResult Cars(Guid id)
         {
-            return View(carsJSRepository.GetAll());
+            return View(Mapping.ToCarList(carsDBRepository.GetAll()));
         }
 
         [HttpGet]
@@ -35,8 +39,8 @@ namespace CarSharingOnlineASP.Controllers
 
             if (ModelState.IsValid)
             {
-                carsJSRepository.Add(car);
-                return RedirectToAction("Products", "Admin");
+                carsDBRepository.Add(Mapping.ToCarDB(car));
+                return RedirectToAction("Cars", "Admin");
             }
             else
             {
@@ -47,15 +51,15 @@ namespace CarSharingOnlineASP.Controllers
         [HttpGet]
         public IActionResult EditCar(Guid id)
         {
-            var car = carsJSRepository.TryGetById(id);
-            return View(car);
+            CarDB car = carsDBRepository.TryGetById(id);
+            return View(Mapping.ToCar(car));
         }
 
         [HttpPost]
-        public IActionResult EditCar(CarEdit car)
+        public IActionResult EditCar(Car car)
         {
-            carsJSRepository.Updata(car);
-            return RedirectToAction("Index", "Car", car.Id);
+            carsDBRepository.Updata(Mapping.ToCarDB(car));
+            return RedirectToAction("Index", "Car", new { id = car.Id });
         }
     }
 }

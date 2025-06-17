@@ -5,26 +5,26 @@
         @await Html.PartialAsync("SideMenu")
     </div>
     <div class="col-9">
-        <h2>Редактировать продукт</h2>
+        <h2>Редактировать автомобиль</h2>
         <form asp-controller="Admin" asp-action="EditProduct">
             <div class="mb-3">
                 <label class="form-label">Id</label>
                 <input type="text" class="form-control" name="Id" value="@Model.Id">
             </div>
             <div class="mb-3">
-                <label class="form-label">Название продукта</label>
+                <label class="form-label">Название автомобиля</label>
                 <input type="text" class="form-control" name="Name" value="@Model.Name">
             </div>
             <div class="mb-3">
-                <label class="form-label">Описание продукта</label>
+                <label class="form-label">Описание автомобиля</label>
                 <input type="text" class="form-control" name="Description" value="@Model.Description">
             </div>
             <div class="mb-3">
-                <label class="form-label">Цена</label>
+                <label class="form-label">Цена руб/мин</label>
                 <input type="number" class="form-control" name="Cost" value="@Model.CostMinute">
             </div>
             <div class="mb-3">
-                <label class="form-label">Url картинка</label>
+                <label class="form-label">Картинка</label>
                 <input type="text" class="form-control" name="PathImage" value="@Model.Image">
             </div>
             <button type="submit" class="btn btn-primary">Добавить</button>

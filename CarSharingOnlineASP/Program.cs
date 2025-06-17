@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 string connection = builder.Configuration.GetConnectionString("DBCarSharing");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
 builder.Services.AddIdentity<UserDB, IdentityRole>().AddEntityFrameworkStores<DatabaseContext>();
+builder.Services.AddTransient<ICarsDBRepository, CarsDBRepository>();
 
 builder.Services.AddSession(options =>
 {
